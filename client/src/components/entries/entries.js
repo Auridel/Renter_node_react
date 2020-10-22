@@ -10,7 +10,7 @@ const Entries = () => {
                 <div className="entries__nav">
                     <span>Jan 2020 - Aug 2020</span>
                     <div className="entries__nav-controls">
-                        <input id="6m" hidden type="radio" value="6month" name="data_range" checked/>
+                        <input id="6m" hidden type="radio" value="6month" name="data_range" defaultChecked/>
                         <label htmlFor="6m" className="entries__nav-label">
                             6 месяцев
                         </label>

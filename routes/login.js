@@ -8,11 +8,6 @@ const {validationResult} = require("express-validator");
 const {JWT_SIGN} = require("../keys");
 
 
-router.get("/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/login");
-    })
-})
 
 router.post("/login", loginValidator, async (req, res) => {
     try {
@@ -24,15 +19,10 @@ router.post("/login", loginValidator, async (req, res) => {
             const user = await User.findOne({email: email});
             const checkPass = await bcrypt.compare(password, user.password);
             if(checkPass){
-                req.session.user = user;
-                req.session.isAuthenticated = true;
-                req.session.save(err => {
-                    if(err) throw err;
-                    res.status(500).json({message: "Something goes is wrong"});
-                })
                 const token = jwt.sign({
                     userId: user._id,
-                    userName: user.name
+                    userName: user.name,
+                    email: user.email
                 }, JWT_SIGN, {expiresIn: "1h"});
                 res.json({token, userId: user._id});
             }else {

@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./components/app/app";
-import Login from "./components/login/login";
+import Wrapper from "./components/wrapper/wrapper";
 
 
 ReactDOM.render(
   <React.StrictMode>
-    {/*<App />*/}
-    <Login/>
+      <Wrapper/>
   </React.StrictMode>,
   document.getElementById('root')
 );

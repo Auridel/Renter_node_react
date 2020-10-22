@@ -1,12 +1,12 @@
 const {Router} = require("express");
-const auth = require("../middlewares/auth");
+
 const router = Router();
 const {addValidator} = require("../utils/validator");
 const {validationResult} = require("express-validator");
 const Entries = require("../model/entries");
 const calculatePrice = require("../utils/calc");
 
-router.get("/", auth, async (req, res) => {
+router.get("/get", async (req, res) => {
     try{
         let entries = await Entries.findOne({userId: req.session.user._id}).select("entries");
         if(entries){
@@ -23,7 +23,7 @@ router.get("/", auth, async (req, res) => {
     }
 })
 
-router.post("/add", auth, addValidator, async (req, res) => {
+router.post("/add", addValidator, async (req, res) => {
     try{
         const userId = req.session.user._id;
         const {cold_plan, hot_plan, day_plan, night_plan, cold, hot, day, night} = req.body;

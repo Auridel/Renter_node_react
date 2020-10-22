@@ -1,24 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 import Navbar from "../navbar/navbar";
-import Account from "../account/account";
-import UserPage from "../userPage/userPage";
+import Routes from "../Routes/routes";
+import Header from "../header/header";
+import AuthContext from "../../context/authContext";
 
 import "../../index.scss";
 
+
+
 const App = () => {
+    const {isAuth} = useContext(AuthContext);
     return (
         <div className="wrapper">
             <Navbar/>
             <main className="main-content">
-                <header className="main-content__header">
-                    <h1 className="main-title">Добро пожаловать!</h1>
-                    <div className="user-info">
-                        <a href="" alt="your account" className="user-name">User Name</a>
-                    </div>
-                </header>
+                {isAuth? <Header/> : ""}
                 <div className="main-content__wrapper">
-                    {/*<Account/>*/}
-                    <UserPage/>
+                    <Routes/>
                 </div>
             </main>
         </div>

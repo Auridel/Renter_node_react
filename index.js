@@ -8,7 +8,7 @@ const {MONGODB_URI, SESSION_SECRET} = require("./keys");
 
 const app = express();
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}))//json
 app.use(vars);
 
 app.use("/api/auth", loginRouter);

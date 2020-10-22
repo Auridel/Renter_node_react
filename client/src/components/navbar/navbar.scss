@@ -91,3 +91,16 @@
     background-repeat: no-repeat;
   }
 }
+.login{
+  &:before{
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 46px;
+    width: 24px;
+    height: 24px;
+
+    background-image: url("../../assets/img/login.svg");
+    background-repeat: no-repeat;
+  }
+}
