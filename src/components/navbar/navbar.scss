@@ -1,0 +1,93 @@
+.main-nav{
+  width: 105px;
+  flex-shrink: 0;
+
+  background-color: #17139C;
+}
+.main-nav__list{
+  position: relative;
+  margin: 0;
+  padding: 0;
+  padding-top: 95px;
+
+  list-style: none;
+
+  &:before{
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 16px;
+    width: 50px;
+    height: 50px;
+
+    background-image: url("../../assets/img/rent.svg");
+    background-repeat: no-repeat;
+  }
+}
+.main-nav__item{
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s;
+
+  &:hover{
+    background-color: #1b16b4;
+  }
+
+  &.active{
+    background-color: rgb(63, 28, 137);
+    border-right: 4px solid #DD3E3E;
+  }
+}
+.main-nav__btn{
+  position: relative;
+  width: 100%;
+  min-height: 72px;
+  padding-top: 44px;
+
+  border: none;
+  background: none;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
+}
+.wallet{
+  &:before{
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 46px;
+    width: 24px;
+    height: 24px;
+
+    background-image: url("../../assets/img/wallet.svg");
+    background-repeat: no-repeat;
+  }
+}
+.settings{
+  &:before{
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 46px;
+    width: 24px;
+    height: 24px;
+
+    background-image: url("../../assets/img/settings.svg");
+    background-repeat: no-repeat;
+  }
+}
+.logout{
+  &:before{
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 46px;
+    width: 24px;
+    height: 24px;
+
+    background-image: url("../../assets/img/logout.svg");
+    background-repeat: no-repeat;
+  }
+}

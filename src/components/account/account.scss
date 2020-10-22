@@ -1,0 +1,27 @@
+.add-btn{
+  position: relative;
+  width: 220px;
+  min-height: 40px;
+  margin-left: 52px;
+  margin-bottom: 20px;
+
+  border: none;
+  background: none;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  color: #212130;
+
+  &:before{
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 40px;
+    height: 40px;
+
+    background-image: url("../../assets/img/add.svg");
+    background-repeat: no-repeat;
+  }
+}

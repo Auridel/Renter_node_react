@@ -1,0 +1,67 @@
+.user__page{
+  width: 568px;
+  height: 544px;
+  padding: 30px 20px;
+
+  background: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(38, 44, 64, 0.15);
+  border-radius: 2px;
+}
+.user__page{
+  display: flex;
+  flex-direction: column;
+}
+.user__header{
+  text-align: center;
+  margin-bottom: 50px;
+}
+.user__info{
+  display: flex;
+  margin-bottom: 20px;
+}
+.user__info-label{
+  display: block;
+  min-width: 80px;
+  min-height: 40px;
+  margin-right: 30px;
+  padding-top: 8px;
+
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+}
+.user__info-field{
+  min-width: 80px;
+  min-height: 40px;
+  padding-top: 8px;
+
+  font-size: 18px;
+  line-height: 21px;
+}
+.user__input{
+  min-width: 80px;
+  min-height: 40px;
+
+  border: 1px solid #C1BBBB;
+  font-size: 18px;
+  line-height: 21px;
+  border-radius: 2px;
+  &:focus{
+    border-left: 3px solid #0C31F1;
+    outline: none;
+  }
+}
+.user__change-btn{
+  width: 129px;
+  height: 40px;
+  margin-right: 40px;
+
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
+  border: none;
+  background: #3751FE;
+  box-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+}
