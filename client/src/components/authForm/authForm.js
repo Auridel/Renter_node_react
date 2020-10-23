@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react";
 import AuthContext from "../../context/authContext";
+import {checkEmail, checkPass} from "../../utils/validators";
 
 import "./authForm.scss";
 
@@ -13,6 +14,18 @@ const AuthForm = () => {
     }
     const registerHandler = (e) => {
         setRegisterForm({...registerForm, [e.target.name]: e.target.value});
+    }
+    const onFormSubmit = (e, action, data) => {
+        e.preventDefault();
+        switch (action) {
+            case "login": {
+                if(checkEmail(data.email) && checkPass(data.password)){
+                    service.login(JSON.stringify(data))
+                        .then(res => login(res))
+                        .catch(e => console.log(e))
+                }
+            }
+        }
     }
 
 
@@ -34,7 +47,12 @@ const AuthForm = () => {
                             id="password"
                             className="login__input" type="password" name="password"/>
                     </div>
-                    <button className="login__submit" type="submit">Войти</button>
+                    <button
+                        onClick={(e) => {
+                            onFormSubmit(e, "login", loginForm);
+                        }}
+                        className="login__submit"
+                        type="submit">Войти</button>
                     <button
                         onClick={() => setShow("register")}
                         className="login__tab-btn"
@@ -47,7 +65,7 @@ const AuthForm = () => {
                     <input
                         onChange={registerHandler}
                         id="name"
-                        className="login__input" type="email" name="name"/>
+                        className="login__input" type="text" name="name"/>
                 </div>
                 <div className="login__input-container">
                     <label htmlFor="email" className="login__label">Email Адрес</label>

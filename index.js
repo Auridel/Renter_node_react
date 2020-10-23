@@ -1,15 +1,15 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const loginRouter = require("./routes/login");
 const accountRouter = require("./routes/account");
-const vars = require("./middlewares/vars");
-const {MONGODB_URI, SESSION_SECRET} = require("./keys");
+const {MONGODB_URI} = require("./keys");
 
 const app = express();
+app.use(cors());
 
-app.use(express.urlencoded({extended: true}))//json
-app.use(vars);
+app.use(express.json({extended: true}))//json
 
 app.use("/api/auth", loginRouter);
 app.use("/api/account", accountRouter);
@@ -29,7 +29,8 @@ async function start () {
         })
     }catch (e) {
         console.log(e);
-        process.exit(1);
+        // process.exit(1);
+        setTimeout(start, 5000);
     }
 }
 

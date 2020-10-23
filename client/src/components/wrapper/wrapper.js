@@ -12,7 +12,7 @@ const Wrapper = () => {
     const isAuth = !!token;
     return (
         <Router>
-            <AuthContext.Provider value={{isAuth, token, service, login, logout, loaded}}>
+            <AuthContext.Provider value={{isAuth, token, service, login, logout, loaded, dataLoaded: false, entries: null}}>
                 <App/>
             </AuthContext.Provider>
         </Router>

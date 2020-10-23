@@ -7,7 +7,9 @@ const AuthContext = React.createContext({
     service: null,
     login: null,
     logout: null,
-    loaded: false
+    loaded: false,
+    dataLoaded: false,
+    entries: null
 })
 
 export default AuthContext;

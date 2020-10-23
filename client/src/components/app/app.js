@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import Navbar from "../navbar/navbar";
 import Routes from "../Routes/routes";
 import Header from "../header/header";
@@ -9,7 +9,14 @@ import "../../index.scss";
 
 
 const App = () => {
-    const {isAuth} = useContext(AuthContext);
+    const {isAuth, service, token, dataLoaded} = useContext(AuthContext);
+    useEffect(() => {
+            if(isAuth && !!token){
+                service.getEntries(JSON.stringify(token))
+                    .then(res => console.log(res))
+                    .catch(e => console.log(e))
+            }
+        }, [isAuth])
     return (
         <div className="wrapper">
             <Navbar/>

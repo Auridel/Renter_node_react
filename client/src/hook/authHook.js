@@ -13,19 +13,17 @@ export const useAuth = () => {
 
     const logout = useCallback(() => {
         setToken(null);
-
         localStorage.setItem(storage, null);
     }, []);
 
     useEffect(() => {
         console.log(token)
         const storageData = JSON.parse(localStorage.getItem(storage))
-        if(storageData && storageData.token){
-            login(storageData.token);
+        if(storageData && storageData){
+            login(storageData);
         }
-
         setLoaded(true);
-    }, [login]);
+    },[login]);
 
     return {token, loaded, login, logout};
 }

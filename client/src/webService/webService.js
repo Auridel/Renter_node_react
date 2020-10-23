@@ -7,7 +7,18 @@ export default class WebService {
     }
 
     async login(body) {
-        return await this._getResource("/api/login", {
+        return await this._getResource("/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body
+        });
+    }
+
+    async register(body){
+        return await this._getResource("/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -16,13 +27,12 @@ export default class WebService {
         });
     }
 
-    async register(body){
-        return await this._getResource("/api/register", {
-            method: "POST",
+    async getEntries(body){
+        return await this._getResource("/api/account/get", {
+            method: "GET",
             headers: {
-                "Content-Type": "application/json"
-            },
-            body
-        });
+                "authorization": `Bearer ${body}`
+            }
+        })
     }
 };

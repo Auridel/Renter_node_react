@@ -5,7 +5,7 @@ import AuthContext from "../../context/authContext";
 import "./navbar.scss";
 
 const Navbar = () => {
-    const {isAuth} = useContext(AuthContext);
+    const {isAuth, logout} = useContext(AuthContext);
 
     return (
             <nav className="main-nav">
@@ -23,7 +23,9 @@ const Navbar = () => {
                             </li>
                         </Link>
                         <li className="main-nav__item">
-                            <button className="main-nav__btn logout">Выход</button>
+                            <button
+                                onClick={() => logout()}
+                                className="main-nav__btn logout">Выход</button>
                         </li>
                     </>
                         :
