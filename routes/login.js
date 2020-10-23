@@ -25,7 +25,6 @@ router.post("/login", loginValidator, async (req, res) => {
                     userName: user.name,
                     email: user.email
                 }, JWT_SIGN, {expiresIn: "1h"});
-                console.log(token)
                 res.json({token});
             }else {
                 res.status(400).json({message: "Email or password is wrong"});

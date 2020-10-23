@@ -69,6 +69,9 @@ input[name=data_range]:checked+label.entries__nav-label{
   &:nth-child(2n){
     color: #ADB5BD;
   }
+  &:last-child{
+    min-width: 80px;
+  }
 }
 .expand-btn{
   width: 20px;

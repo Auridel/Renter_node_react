@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  min-width: 200px;
+  width: 210px;
   min-height: 100px;
   padding: 16px;
   margin-right: 16px;
@@ -60,5 +60,25 @@
 
     background-image: url("../../assets/img/info.svg");
     background-repeat: no-repeat;
+  }
+}
+.plan__change{
+  position: relative;
+  width: 174px;
+  height: 24px;
+}
+.plan__input{
+  width: 100%;
+  height: 24px;
+
+  border: 1px solid #27496c;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-size: 18px;
+  color: #1b16b4;
+
+  &:focus{
+    border-left: 3px solid #0C31F1;
   }
 }

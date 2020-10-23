@@ -12,27 +12,27 @@ router.get("/get", auth, async (req, res) => {
     try{
         jwt.verify(JSON.parse(req.token).token, JWT_SIGN, async (err, decoded) => {
             if(err) {
-                return res.status(403).json("Forbidden! Anauthorized access");
+                return res.status(403).json({message: "Forbidden! Anauthorized access"});
             }
             else {
                 // console.log(decoded)
                 let entries = await Entries.findOne({userId: decoded.userId}).select("entries");
-                const data = entries.toJSON();
-                data.userName = decoded.userName;
-                data.email = decoded.email;
-                console.log(data)
+                if(!!entries) {
+                    const data = entries.toJSON();
+                    data.userName = decoded.userName;
+                    data.email = decoded.email;
+                    return res.status(200).json(data);
+                }
+                else {
+                    const data = {
+                        userName: decoded.userName,
+                        email: decoded.email,
+                        entries: []
+                    }
+                    return res.status(200).json(data);
+                }
             }
         })
-        // let entries = await Entries.findOne({userId: req.session.user._id}).select("entries");
-        // if(entries){
-        //     data = entries.toJSON();
-        //     res.render("account", {
-        //         plan: data.entries[data.entries.length - 1].cur_plan,
-        //         entries: data.entries
-        //     })
-        // }else {
-        //     res.render("account");
-        // }
     }catch (e) {
         console.log(e);
     }

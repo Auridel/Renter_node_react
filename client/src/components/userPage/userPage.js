@@ -1,9 +1,12 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
+import DataContext from "../../context/dataContext";
+import Spinner from "../spinner/spinner";
 
 import "./userPage.scss";
 
 const UserPage = () => {
     const [editable, setEditable] = useState(false);
+    const {loadStatus, data} = useContext(DataContext);
     const nameRef = useRef();
     const emailRef = useRef();
 
@@ -18,20 +21,26 @@ const UserPage = () => {
                 <div className="user__info">
                     <span className="user__info-label">Имя: </span>
                     {!editable?
-                    <span className="user__info-field">User Name</span>
+                    <span className="user__info-field">{loadStatus? data.userName : <Spinner/>}</span>
                         :
-                    <input className="user__input" ref={nameRef} type="text" name="name" defaultValue="User Name"/>}
+                    <input
+                        className="user__input"
+                        ref={nameRef} type="text"
+                        name="name" defaultValue={data.userName}/>}
                 </div>
                 <div className="user__info">
                     <span className="user__info-label">Email: </span>
                     {!editable?
-                    <span className="user__info-field">123@mail.ru</span>
+                    <span className="user__info-field">{loadStatus? data.email : <Spinner/>}</span>
                         :
-                    <input className="user__input" ref={emailRef} type="email" name="email" defaultValue="123@mail.ru"/>}
+                    <input
+                        className="user__input"
+                        ref={emailRef} type="email"
+                        name="email" defaultValue={data.email}/>}
                 </div>
                 <button
                     onClick={() => {
-                        setEditable(!editable);
+                        if(loadStatus) setEditable(!editable);
                     }}
                     className="user__change-btn">Изменить</button>
             </section>

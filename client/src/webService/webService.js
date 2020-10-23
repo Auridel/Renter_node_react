@@ -1,7 +1,12 @@
+import CustomError from "./customError";
+
 export default class WebService {
     async _getResource(url, opt){
         const res = await fetch(`http://localhost:4000${url}`, opt);
-        if(!res.ok) throw new Error(res.status);
+        if(!res.ok) {
+            const serverMessage = await res.json();
+            throw new CustomError(res.status, serverMessage.message)
+        }
 
         return res.json();
     }
