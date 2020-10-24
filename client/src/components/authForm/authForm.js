@@ -28,7 +28,7 @@ const AuthForm = () => {
                             setWaiting(false);
                             login(res);
                         })
-                        .catch(e => {
+                        .catch(() => {
                             setWaiting(false);
                         })
                 }
@@ -38,13 +38,12 @@ const AuthForm = () => {
                 if(checkEmail(data.email) && checkPass(data.password) && (data.password === data.confirm) && data.name.trim().length > 2){
                     setWaiting(true);
                     service.register(JSON.stringify(data))
-                        .then(res => {
+                        .then(() => {
                             setWaiting(false);
                             setShow("login");
                         })
-                        .catch(e => {
+                        .catch(() => {
                             setWaiting(false);
-                            console.log(e)
                         })
                 }
                 break;

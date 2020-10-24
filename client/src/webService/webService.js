@@ -51,4 +51,16 @@ export default class WebService {
             body
         })
     }
+
+    async deleteData(body, token){
+        console.log(token)
+        return await this._getResource("/api/account/del", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: body
+        })
+    }
 };

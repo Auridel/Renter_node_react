@@ -48,27 +48,19 @@ input[name=data_range]:checked+label.entries__nav-label{
 }
 
 .entries__table{
-  display: flex;
-  flex-direction: column;
   margin: 0;
   padding: 0;
-
-  list-style: none;
 }
 .entries__list-item{
-  display: flex;
-  position: relative;
-  justify-content: space-around;
+  &:nth-child(2n){
+    color: #66666d;
+  }
 }
 .entries__list-data{
   display: block;
   padding: 3px 10px;
   margin-bottom: 5px;
 
-
-  &:nth-child(2n){
-    color: #ADB5BD;
-  }
   &:last-child{
     min-width: 80px;
   }

@@ -6,6 +6,10 @@ const entriesSchema = new Schema({
       required: true
     },
     entries: [{
+        timestamp: {
+            type: Number,
+            required: true
+        },
         date: {
             type: Date,
             required: true

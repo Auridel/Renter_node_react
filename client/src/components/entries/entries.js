@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import DataContext from "../../context/dataContext";
 import Spinner from "../spinner/spinner";
+import Expanded from "../expanded/expanded";
 
 import "./entries.scss"
 
@@ -8,6 +9,7 @@ const Entries = () => {
     const {loadStatus, data} = useContext(DataContext);
     const sixMonth = 15552000000;
     const [sort, setSort] = useState(Date.now() - sixMonth);
+    const [expanded, setExpanded] = useState(null);
     const changeSort = (opt) => {
         if(opt === "6m") setSort(Date.now() - sixMonth);
         else if(opt === "12m") setSort(Date.now() - (sixMonth * 2) )
@@ -20,9 +22,12 @@ const Entries = () => {
         );
         else {
             return (
-                <><table className="entries__table">
-                        <tr className="entries__list-item">
-                            <th></th>
+                <>
+                    {expanded ? <Expanded id={expanded} trigger={setExpanded}/> : ""}
+                    <table className="entries__table">
+                        <thead className="entries__list-item">
+                        <tr>
+                            <th/>
                             <th><span className="entries__list-data">Дата</span></th>
                             <th><span className="entries__list-data">ХВ</span></th>
                             <th><span className="entries__list-data">ГВ</span></th>
@@ -30,12 +35,16 @@ const Entries = () => {
                             <th><span className="entries__list-data">Ночь</span></th>
                             <th><span className="entries__list-data">Итого</span></th>
                         </tr>
+                        </thead>
+                        <tbody>
 
                 {
                     data.entries.filter(item => Date.parse(item.date) > sort).map(el => {
                         return(
-                            <tr key={Date.parse(el.date)} className="entries__list-item">
-                                <td><button className="expand-btn"/></td>
+                            <tr key={el.timestamp} className="entries__list-item">
+                                <td><button
+                                    onClick={() => setExpanded(el.timestamp)}
+                                    className="expand-btn"/></td>
                                 <td><span className="entries__list-data">{new Intl.DateTimeFormat({
                                     day: "2-digit", month: "long", year: "numeric"
                                 }).format(new Date(el.date))}</span></td>
@@ -47,7 +56,9 @@ const Entries = () => {
                             </tr>
                         )})
                 }
-                </table></>
+                        </tbody>
+                    </table>
+                </>
             )
         }
     }
@@ -60,7 +71,7 @@ const Entries = () => {
                     <span>Jan 2020 - Aug 2020</span>
                     <div className="entries__nav-controls">
                         <input id="6m"
-                               onChange={(e) => changeSort("6m")}
+                               onChange={() => changeSort("6m")}
                                hidden type="radio"
                                value="6month"
                                name="data_range" defaultChecked/>
@@ -68,7 +79,7 @@ const Entries = () => {
                             6 месяцев
                         </label>
                         <input id="12m"
-                               onChange={(e) => changeSort("12m")}
+                               onChange={() => changeSort("12m")}
                                hidden type="radio"
                                value="12month" name="data_range"/>
                         <label htmlFor="12m" className="entries__nav-label">
