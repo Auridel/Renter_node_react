@@ -1,4 +1,4 @@
-import CustomError from "./customError";
+import CustomError from "../errors/customError";
 
 export default class WebService {
     async _getResource(url, opt){
@@ -38,6 +38,17 @@ export default class WebService {
             headers: {
                 "authorization": `Bearer ${body}`
             }
+        })
+    }
+
+    async updateEntries(body, token){
+        return await this._getResource("/api/account/add", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body
         })
     }
 };

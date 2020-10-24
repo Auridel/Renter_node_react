@@ -4,11 +4,10 @@ import {keysArr, fieldsArr} from "../../utils/fields";
 
 import "./metersForm.scss"
 
-const MetersForm = ({meters, setMeters, close, defValue}) => {
+const MetersForm = ({meters, setMeters, close, defValue, update}) => {
     const [editable, setEditable] = useState(null);
     const [error, setError] = useState({});
     const errorHandler = (key, value) => {
-        console.log(defValue)
         if(+defValue[key] > +value){
             setError({...error, [key]:true});
             setMeters({...meters, [key]: defValue[key]});
@@ -43,9 +42,14 @@ const MetersForm = ({meters, setMeters, close, defValue}) => {
                     )
                 })}
             </div>
-            <button className="meters__add-btn">Отправить показания</button>
             <button
-                onClick={() => close(false)}
+                onClick={update}
+                className="meters__add-btn">Отправить показания</button>
+            <button
+                onClick={() => {
+                    setMeters(defValue);
+                    close(false);
+                }}
                 className="meters__cancel-btn">Отмена</button>
         </section>
     )

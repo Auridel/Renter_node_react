@@ -13,30 +13,41 @@ const Entries = () => {
         else if(opt === "12m") setSort(Date.now() - (sixMonth * 2) )
     }
 
+
     const showEntries = (data) => {
         if(!data.entries.length) return(
             <h3>Записей еще нет</h3>
         );
         else {
             return (
-                <>
+                <><table className="entries__table">
+                        <tr className="entries__list-item">
+                            <th></th>
+                            <th><span className="entries__list-data">Дата</span></th>
+                            <th><span className="entries__list-data">ХВ</span></th>
+                            <th><span className="entries__list-data">ГВ</span></th>
+                            <th><span className="entries__list-data">День</span></th>
+                            <th><span className="entries__list-data">Ночь</span></th>
+                            <th><span className="entries__list-data">Итого</span></th>
+                        </tr>
+
                 {
                     data.entries.filter(item => Date.parse(item.date) > sort).map(el => {
                         return(
-                            <li key={Date.parse(el.date)} className="entries__list-item">
-                                <button className="expand-btn"/>
-                                <span className="entries__list-data">{new Intl.DateTimeFormat({
+                            <tr key={Date.parse(el.date)} className="entries__list-item">
+                                <td><button className="expand-btn"/></td>
+                                <td><span className="entries__list-data">{new Intl.DateTimeFormat({
                                     day: "2-digit", month: "long", year: "numeric"
-                                }).format(new Date(el.date))}</span>
-                                <span className="entries__list-data">{el.meters.cold}</span>
-                                <span className="entries__list-data">{el.meters.hot}</span>
-                                <span className="entries__list-data">{el.meters.day}</span>
-                                <span className="entries__list-data">{el.meters.night}</span>
-                                <span className="entries__list-data">{el.price}</span>
-                            </li>
+                                }).format(new Date(el.date))}</span></td>
+                                <td><span className="entries__list-data">{el.meters.cold}</span></td>
+                                <td><span className="entries__list-data">{el.meters.hot}</span></td>
+                                <td><span className="entries__list-data">{el.meters.day}</span></td>
+                                <td><span className="entries__list-data">{el.meters.night}</span></td>
+                                <td><span className="entries__list-data">{el.price}</span></td>
+                            </tr>
                         )})
                 }
-                </>
+                </table></>
             )
         }
     }
@@ -65,13 +76,13 @@ const Entries = () => {
                         </label>
                     </div>
                 </div>
-                <ul className="entries__list">
+                <div >
                     {loadStatus ?
                         showEntries(data)
                         :
                         <Spinner/>
                     }
-                </ul>
+                </div>
             </div>
         </section>
     )

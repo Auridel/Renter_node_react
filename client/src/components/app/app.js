@@ -11,21 +11,25 @@ import "../../index.scss";
 
 const App = () => {
     const {isAuth, service, token, logout} = useContext(AuthContext);
-    const {loadReady, updateData} = useContext(DataContext)
+    const {loadReady, updateData, loadStatus} = useContext(DataContext)
     useEffect(() => {
-            if((isAuth && !!token)){
+            if((isAuth && !!token && loadStatus === false)){
                 service.getEntries(JSON.stringify(token))
                     .then(res => {
-                        console.log(res);
+                        console.log(res)
                         updateData(res);
                         loadReady(true);
                     })
                     .catch(e => {
                         loadReady(false);
-                        if(e.status === 403) logout();
+                        if(e.status === 403) {
+                            logout();
+                            loadReady(false);
+                            updateData(null);
+                        }
                     })
             }
-        }, [isAuth, token])
+        }, [isAuth, token, loadStatus])
     return (
         <div className="wrapper">
             <Navbar/>

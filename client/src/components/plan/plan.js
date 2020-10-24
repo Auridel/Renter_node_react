@@ -4,7 +4,7 @@ import Spinner from "../spinner/spinner";
 import ChangePlan from "../changeField/changeField";
 import MetersForm from "../metersForm/metersForm";
 import {keysArr, fieldsArr} from "../../utils/fields";
-
+import AuthContext from "../../context/authContext";
 
 import "./plan.scss";
 
@@ -14,10 +14,21 @@ const Plan = () => {
     const [defValue, setDefValue] = useState({});
     const [editable, setEditable] = useState(null);
     const [addFormVisible, setAddFormVisible] = useState(false);
-    const {loadStatus, data} = useContext(DataContext);
+    const {service, token, logout} = useContext(AuthContext);
+    const {loadStatus, data, loadReady, updateData} = useContext(DataContext);
 
     const updateMeters = () => {
-
+        service.updateEntries(JSON.stringify({...plan, ...meters}), JSON.stringify(token))
+            .then(() => {
+                loadReady(false);
+            })
+            .catch(e => {
+                if(e.status === 403) {
+                    loadReady(false);
+                    updateData(null);
+                    logout();
+                }
+            })
     }
 
     useEffect(() => {
@@ -79,6 +90,7 @@ const Plan = () => {
             }}
             className="add-btn">Добавить показания</button>
         {addFormVisible? <MetersForm
+            update={updateMeters}
             defValue={defValue}
             meters={meters}
             setMeters={setMeters}
