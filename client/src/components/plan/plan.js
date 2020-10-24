@@ -1,97 +1,66 @@
 import React, {useContext, useEffect, useState} from "react";
 import DataContext from "../../context/dataContext";
 import Spinner from "../spinner/spinner";
+import ChangePlan from "../changeField/changeField";
+import MetersForm from "../metersForm/metersForm";
+import {keysArr, fieldsArr} from "../../utils/fields";
+
 
 import "./plan.scss";
 
 const Plan = () => {
     const [plan, setPlan] = useState({});
+    const [meters, setMeters] = useState({});
+    const [defValue, setDefValue] = useState({});
     const [editable, setEditable] = useState(null);
+    const [addFormVisible, setAddFormVisible] = useState(false);
     const {loadStatus, data} = useContext(DataContext);
+
+    const updateMeters = () => {
+
+    }
 
     useEffect(() => {
         if(!!data){
-            setPlan(data.entries[data.entries.length - 1].cur_plan);
+            if(!!data.entries.length) {
+                setPlan(data.entries[data.entries.length - 1].cur_plan);
+                setMeters(data.entries[data.entries.length - 1].meters);
+                setDefValue(data.entries[data.entries.length - 1].meters);
+            }
+            else {
+                setPlan({cold_plan: 0, hot_plan: 0, day_plan: 0, night_plan: 0});
+                setMeters({cold: 0, hot: 0, day: 0, night: 0});
+                setDefValue({cold: 0, hot: 0, day: 0, night: 0});
+            }
         }
     }, [data])
 
-    const showPlan = (key) => {
-        if (!data.entries.length) {
-            return 0;
-        }
-        else {
-            return plan[key];
-        }
-    }
-    const changePlan = (key) => {
-        return (
-            <div className="plan__change">
-                <input
-                    onInput={(e) => {
-                        e.target.value = e.target.value.trim().replace(/[^.\d]/g, "");
-                        setPlan({...plan, [key]: e.target.value});
-                    }}
-                    onBlur={() => {setEditable(null)}}
-                    onKeyPress={(e) => {
-                        if(e.key === "Enter" || e.key === "Escape") setEditable(null);
-                    }}
-                    autoFocus
-                    defaultValue={plan[key]}
-                    className="plan__input"
-                    type="text" />
-            </div>
-        )
-    }
+
+
+
+
 
     return (
+    <>
         <section className="plan__block">
             <div className="plan__current">
                 <h2 className="block__header">Ваш тариф на текущий месяц</h2>
                 <div className="plan__wrapper">
-                    <div className="plan__values">
-                        <span className="plan__values-header">Холодное водоснабжение</span>
-                        {editable === "cold_plan" ? changePlan("cold_plan")
-                            :
-                            <span
-                                onClick={() => setEditable("cold_plan")}
-                                className="plan__values-value">
-                            {loadStatus ? showPlan("cold_plan") : <Spinner/>}
-                            </span>
-                        }
-                    </div>
-                    <div className="plan__values">
-                        <span className="plan__values-header">Горячее водоснабжение</span>
-                        {editable === "hot_plan" ? changePlan("hot_plan")
-                            :
-                            <span
-                                onClick={() => setEditable("hot_plan")}
-                                className="plan__values-value">
-                                {loadStatus ? showPlan("hot_plan") : <Spinner/>}
-                            </span>
-                        }
-                    </div>
-                    <div className="plan__values">
-                        <span className="plan__values-header">Электричество день</span>
-                        {editable === "day_plan" ? changePlan("day_plan")
-                            :
-                            <span
-                                onClick={() => setEditable("day_plan")}
-                                className="plan__values-value">
-                                {loadStatus ? showPlan("day_plan") : <Spinner/>}
-                            </span>
-                        }
-                    </div>
-                    <div className="plan__values">
-                        <span className="plan__values-header">Электричество ночь</span>
-                        {editable === "night_plan" ? changePlan("night_plan")
-                            :
-                            <span
-                                onClick={() => setEditable("night_plan")}
-                                className="plan__values-value">
-                                {loadStatus ? showPlan("night_plan") : <Spinner/>}
-                            </span>
-                        }
-                    </div>
+                    {keysArr.map((item, i) => {
+                        return (
+                            <div key={`${item}_plan`} className="plan__values">
+                                <span className="plan__values-header">{fieldsArr[i]}</span>
+                                {editable === `${item}_plan` ? <ChangePlan item={`${item}_plan`} value={plan} setter={setPlan} trigger={setEditable}/>
+                                    :
+                                <span
+                                    onClick={() => setEditable(`${item}_plan`)}
+                                    className="plan__values-value">
+                                {loadStatus ? plan[`${item}_plan`] : <Spinner/>}
+                                </span>
+                            }
+                        </div>
+                        )
+                    })}
                 </div>
             </div>
             <div className="plan__info">
@@ -102,6 +71,19 @@ const Plan = () => {
                 </article>
             </div>
         </section>
+        <button
+            onClick={() => {
+                if(loadStatus && !!data){
+                    setAddFormVisible(true)
+                }
+            }}
+            className="add-btn">Добавить показания</button>
+        {addFormVisible? <MetersForm
+            defValue={defValue}
+            meters={meters}
+            setMeters={setMeters}
+            close={setAddFormVisible}/> : ""}
+    </>
     )
 };
 

@@ -8,7 +8,6 @@ const Account = () => {
     return (
         <>
             <Plan/>
-            <button className="add-btn">Добавить показания</button>
             <Entries/>
         </>
     )

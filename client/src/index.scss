@@ -5,7 +5,9 @@ html, body{
 }
 *{
   box-sizing: border-box;
-  //border: 1px solid black;
+  &:focus{
+    outline: 1px solid #3751FE;
+  }
 }
 
 .wrapper{
