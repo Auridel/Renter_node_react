@@ -68,7 +68,15 @@ const Entries = () => {
                 <h2 className="entries__header">История операций</h2>
                 <div className="entries__content">
                     <div className="entries__nav">
-                        <span>Jan 2020 - Aug 2020</span>
+                        <span>{
+                            new Intl.DateTimeFormat({
+                                day: "2-digit", month: "long", year: "numeric"
+                            }).format(sort)
+                        } - {
+                            new Intl.DateTimeFormat({
+                                day: "2-digit", month: "long", year: "numeric"
+                            }).format(Date.now())
+                        }</span>
                         <div className="entries__nav-controls">
                             <input id="6m"
                                    onChange={() => changeSort("6m")}
