@@ -139,10 +139,10 @@ const AuthForm = () => {
                         className="login__input" type="password" name="password"/>
                 </div>
                 <div className="login__input-container">
-                    <label htmlFor="password" className="login__label">Повторите пароль</label>
+                    <label htmlFor="confirm" className="login__label">Повторите пароль</label>
                     <input
                         onChange={registerHandler}
-                        id="password"
+                        id="confirm"
                         className="login__input" type="password" name="confirm"/>
                 </div>
                 <button
