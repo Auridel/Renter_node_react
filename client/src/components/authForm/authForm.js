@@ -19,8 +19,8 @@ const AuthForm = () => {
         setRegisterForm({...registerForm, [e.target.name]: e.target.value});
     }
 
-    const showToast = (msg) => {
-        toast.dark(`${msg}`, {
+    const showToast = (msg, color) => {
+        toast[color](`${msg}`, {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -43,24 +43,36 @@ const AuthForm = () => {
                             login(res);
                         })
                         .catch((e) => {
-                            showToast(e.desc);
+                            showToast(e.desc, "dark");
                             setWaiting(false);
                         })
+                }
+                else {
+                    if(!checkEmail(data.email)) showToast("Enter correct email", "error");
+                    if(!checkPass(data.password)) showToast("Min password length 3 char", "error");
                 }
                 break;
             }
             case "register": {
-                if(checkEmail(data.email) && checkPass(data.password) && (data.password === data.confirm) && data.name.trim().length > 2){
-                    setWaiting(true);
-                    service.register(JSON.stringify(data))
-                        .then(() => {
-                            setWaiting(false);
-                            setShow("login");
-                        })
-                        .catch((e) => {
-                            showToast(e.desc);
-                            setWaiting(false);
-                        })
+                if(checkEmail(data.email) && checkPass(data.password) && (data.password === data.confirm) && data.name){
+                    if(data.name.trim().length > 2) {
+                        setWaiting(true);
+                        service.register(JSON.stringify(data))
+                            .then(() => {
+                                setWaiting(false);
+                                setShow("login");
+                            })
+                            .catch((e) => {
+                                showToast(e.desc, "dark");
+                                setWaiting(false);
+                            })
+                    }
+                }
+                else {
+                    if(!checkEmail(data.email)) showToast("Enter correct email", "error");
+                    if(!checkPass(data.password)) showToast("Min password length 3 char", "error");
+                    if((data.password !== data.confirm)) showToast("Password doesn't match", "error");
+                    if(!data.name || !data.name.trim().length < 2) showToast("Min name length 3 char", "error");
                 }
                 break;
             }

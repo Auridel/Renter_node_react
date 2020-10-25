@@ -4,6 +4,7 @@ const checkEmail = (value) => {
     return res;
 };
 const checkPass = (value) => {
+    if(!value) return false;
     const reg = new RegExp(/^[^\s]+$/ig);
     return (value.length > 2 && reg.test(value));
 }
