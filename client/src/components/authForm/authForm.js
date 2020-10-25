@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import AuthContext from "../../context/authContext";
 import {checkEmail, checkPass} from "../../utils/validators";
 import Spinner from "../spinner/spinner";
+import {toast} from "react-toastify";
 
 import "./authForm.scss";
 
@@ -17,6 +18,19 @@ const AuthForm = () => {
     const registerHandler = (e) => {
         setRegisterForm({...registerForm, [e.target.name]: e.target.value});
     }
+
+    const showToast = (msg) => {
+        toast.dark(`${msg}`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
     const onFormSubmit = (e, action, data) => {
         e.preventDefault();
         switch (action) {
@@ -28,7 +42,8 @@ const AuthForm = () => {
                             setWaiting(false);
                             login(res);
                         })
-                        .catch(() => {
+                        .catch((e) => {
+                            showToast(e.desc);
                             setWaiting(false);
                         })
                 }
@@ -42,7 +57,8 @@ const AuthForm = () => {
                             setWaiting(false);
                             setShow("login");
                         })
-                        .catch(() => {
+                        .catch((e) => {
+                            showToast(e.desc);
                             setWaiting(false);
                         })
                 }

@@ -53,8 +53,18 @@ export default class WebService {
     }
 
     async deleteData(body, token){
-        console.log(token)
         return await this._getResource("/api/account/del", {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: body
+        })
+    }
+
+    async updateName(body, token){
+        return await this._getResource("/api/auth/name", {
             method: "POST",
             headers: {
                 "authorization": `Bearer ${token}`,

@@ -5,6 +5,7 @@ import ChangePlan from "../changeField/changeField";
 import MetersForm from "../metersForm/metersForm";
 import {keysArr, fieldsArr} from "../../utils/fields";
 import AuthContext from "../../context/authContext";
+import {toast} from "react-toastify";
 
 import "./plan.scss";
 
@@ -17,12 +18,25 @@ const Plan = () => {
     const {service, token, logout} = useContext(AuthContext);
     const {loadStatus, data, loadReady, updateData} = useContext(DataContext);
 
+    const showToast = (msg) => {
+        toast.dark(`${msg}`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
     const updateMeters = () => {
         service.updateEntries(JSON.stringify({...plan, ...meters}), JSON.stringify(token))
             .then(() => {
                 loadReady(false);
             })
             .catch(e => {
+                showToast(e.desc);
                 if(e.status === 403) {
                     loadReady(false);
                     updateData(null);

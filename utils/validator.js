@@ -29,14 +29,17 @@ exports.loginValidator = [
     }).normalizeEmail(),
     body("password", "Password length: 3-25").isLength({min: 3, max: 25}).isAlphanumeric().trim()
 ]
+exports.nameValidator = [
+    body("name").trim().isLength({min:3, max:20}).withMessage("Name length: 3-20")
+]
 
 exports.addValidator = [
-    body("cold_plan", "All values must be a number").isNumeric().trim(),
-    body("hot_plan", "All values must be a number").isNumeric().trim(),
-    body("day_plan", "All values must be a number").isNumeric().trim(),
-    body("night_plan", "All values must be a number").isNumeric().trim(),
-    body("cold", "All values must be a number").isNumeric().trim(),
-    body("hot", "All values must be a number").isNumeric().trim(),
-    body("day", "All values must be a number").isNumeric().trim(),
-    body("night", "All values must be a number").isNumeric().trim()
+    body("cold_plan", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("hot_plan", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("day_plan", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("night_plan", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("cold", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("hot", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("day", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim(),
+    body("night", "All values must be a number").isNumeric().custom(value => !(value < 0)).trim()
 ]

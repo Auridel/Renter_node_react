@@ -23,7 +23,6 @@ const Entries = () => {
         else {
             return (
                 <>
-                    {expanded ? <Expanded id={expanded} trigger={setExpanded}/> : ""}
                     <table className="entries__table">
                         <thead className="entries__list-item">
                         <tr>
@@ -65,36 +64,39 @@ const Entries = () => {
 
     return (
         <section className="entries__wrapper">
-            <h2 className="entries__header">История операций</h2>
-            <div className="entries__content">
-                <div className="entries__nav">
-                    <span>Jan 2020 - Aug 2020</span>
-                    <div className="entries__nav-controls">
-                        <input id="6m"
-                               onChange={() => changeSort("6m")}
-                               hidden type="radio"
-                               value="6month"
-                               name="data_range" defaultChecked/>
-                        <label htmlFor="6m" className="entries__nav-label">
-                            6 месяцев
-                        </label>
-                        <input id="12m"
-                               onChange={() => changeSort("12m")}
-                               hidden type="radio"
-                               value="12month" name="data_range"/>
-                        <label htmlFor="12m" className="entries__nav-label">
-                            12 месяцев
-                        </label>
+            <div>
+                <h2 className="entries__header">История операций</h2>
+                <div className="entries__content">
+                    <div className="entries__nav">
+                        <span>Jan 2020 - Aug 2020</span>
+                        <div className="entries__nav-controls">
+                            <input id="6m"
+                                   onChange={() => changeSort("6m")}
+                                   hidden type="radio"
+                                   value="6month"
+                                   name="data_range" defaultChecked/>
+                            <label htmlFor="6m" className="entries__nav-label">
+                                6 месяцев
+                            </label>
+                            <input id="12m"
+                                   onChange={() => changeSort("12m")}
+                                   hidden type="radio"
+                                   value="12month" name="data_range"/>
+                            <label htmlFor="12m" className="entries__nav-label">
+                                12 месяцев
+                            </label>
+                        </div>
+                    </div>
+                    <div >
+                        {loadStatus ?
+                            showEntries(data)
+                            :
+                            <Spinner/>
+                        }
                     </div>
                 </div>
-                <div >
-                    {loadStatus ?
-                        showEntries(data)
-                        :
-                        <Spinner/>
-                    }
-                </div>
             </div>
+            {expanded ? <Expanded id={expanded} trigger={setExpanded}/> : ""}
         </section>
     )
 };

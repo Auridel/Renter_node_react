@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../model/user");
+const auth = require("../middlewares/auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {loginValidator, registerValidator} =require("../utils/validator");
+const {loginValidator, registerValidator, nameValidator} =require("../utils/validator");
 const {validationResult} = require("express-validator");
 const {JWT_SIGN} = require("../keys");
 
@@ -12,10 +13,9 @@ const {JWT_SIGN} = require("../keys");
 router.post("/login", loginValidator, async (req, res) => {
     try {
         const {email, password} = req.body;
-        console.log(req.body)               ///dev
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({errors: errors.array()[0].msg, message: "Incorrect data!"});
+            return res.status(400).json({message: errors.array()[0].msg});
         }else {
             const user = await User.findOne({email: email});
             const checkPass = await bcrypt.compare(password, user.password);
@@ -27,7 +27,7 @@ router.post("/login", loginValidator, async (req, res) => {
                 }, JWT_SIGN, {expiresIn: "1h"});
                 res.json({token});
             }else {
-                res.status(400).json({message: "Email or password is wrong"});
+                res.status(403).json({message: "Email or password is wrong"});
             }
         }
     }catch (e) {
@@ -39,10 +39,9 @@ router.post("/login", loginValidator, async (req, res) => {
 router.post("/register", registerValidator, async (req, res) => {
     try {
         const {email, name, password} = req.body;
-        console.log(req.body)               ///dev
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            res.status(400).json({errors: errors.array()[0].msg, message: "Incorrect data!"});
+            res.status(400).json({message: errors.array()[0].msg});
         }else {
             const hashPass = await bcrypt.hash(password, 10);
             const user = new User({email, password: hashPass, name});
@@ -51,6 +50,31 @@ router.post("/register", registerValidator, async (req, res) => {
         }
     }catch (e) {
         console.log(e);
+        res.status(500).json({message: "Something goes is wrong"});
+    }
+})
+
+router.post("/name", auth, nameValidator, async (req, res) => {
+    try{
+        jwt.verify(JSON.parse(req.token).token, JWT_SIGN, async (err, decoded) => {
+            if(err) return res.status(403).json({message: "Forbidden! Unauthorized access"});
+            else {
+                const errors = validationResult(req);
+                if(!errors.isEmpty()) return res.status(400).json({message: errors.array()[0].msg});
+                else {
+                    const userId = decoded.userId;
+                    const user = await User.findOne({_id: userId});
+                    if(!user) return res.status(403).json({message: "Forbidden! Unauthorized access"});
+                    else {
+                        user.name = req.body.name;
+                        await user.save();
+                        return res.status(200).json({message: "ok"});
+                    }
+                }
+            }
+        })
+    }catch (e) {
+        console.log(e)
         res.status(500).json({message: "Something goes is wrong"});
     }
 })

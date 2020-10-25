@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import ChangePlan from "../changeField/changeField";
 import {keysArr, fieldsArr} from "../../utils/fields";
+import {useTransition, animated} from 'react-spring';
 
 import "./metersForm.scss"
 
@@ -15,7 +16,16 @@ const MetersForm = ({meters, setMeters, close, defValue, update}) => {
         else setMeters({...meters, [key]: value});
     }
 
+    const [toggle, set] = useState(false)
+    const transitions = useTransition(toggle, null, {
+        from: { opacity: 0, height: 0, innerHeight: 0 },
+        enter: { opacity: 1, height: "auto", innerHeight: "auto" },
+        leave: [{delay: 200},  {innerHeight: 0}, { opacity: 0, height: 0 }]
+    })
+
     return (
+        transitions.map(({ item, props, key }) => { return <animated.div key={key} style={props}>
+
         <section className="meters__wrapper">
             <h3 className="meters__header">Укажите текущие показания</h3>
             <div className="meters__form">
@@ -51,7 +61,8 @@ const MetersForm = ({meters, setMeters, close, defValue, update}) => {
                     close(false);
                 }}
                 className="meters__cancel-btn">Отмена</button>
-        </section>
+        </section></animated.div>})
+
     )
 };
 

@@ -15,11 +15,13 @@ router.get("/get", auth, async (req, res) => {
                 return res.status(403).json({message: "Forbidden! Unauthorized access"});
             }
             else {
-                let entries = await Entries.findOne({userId: decoded.userId}).select("entries");
+                let entries = await Entries.findOne({userId: decoded.userId}).populate("userId", "name email");
                 if(!!entries) {
-                    const data = entries.toJSON();
-                    data.userName = decoded.userName;
-                    data.email = decoded.email;
+                    const data = {
+                        userName: entries.userId.name,
+                        email: entries.userId.email,
+                        entries: entries.entries
+                    }
                     return res.status(200).json(data);
                 }
                 else {
