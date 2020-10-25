@@ -25,15 +25,11 @@
     "react-toastify": "^6.0.9"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "client:install": "npm install --prefix client",
-    "client:build": "npm run build --prefix client",
-    "dev": "cross-env=development concurrently  \"npm run server\" \"npm run client\" "
+    "dev": "concurrently  \"npm run server\" \"npm run client\" "
   },
   "devDependencies": {
-    "concurrently": "^5.3.0",
-    "cross-env": "^7.0.2"
+    "concurrently": "^5.3.0"
   }
 }

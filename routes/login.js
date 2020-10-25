@@ -6,8 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {loginValidator, registerValidator, nameValidator} =require("../utils/validator");
 const {validationResult} = require("express-validator");
-// const {JWT_SIGN} = require("../keys");
-const JWT_SIGN = process.env.JWT_SIGN;
+const {JWT_SIGN} = require("../keys");
 
 
 router.post("/login", loginValidator, async (req, res) => {
